@@ -20,7 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/test', function (Request $request) {
     return [
-        'data' => 'api work!'
+        'data' => 'api works!',
+        'success' => true
     ];
 });
 
