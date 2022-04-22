@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\v1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +25,7 @@ Route::get('/test', function (Request $request) {
         'success' => true
     ];
 });
+
+Route::post('/login', [UserController::class, 'login'] );
+Route::post('/register', [UserController::class, 'register'] );
 
