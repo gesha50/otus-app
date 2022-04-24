@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\UserLoginRequest;
+use App\Http\Requests\Auth\UserRegisterRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -10,12 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function login(Request $request) {
-        $data = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-
+    public function login(UserLoginRequest $request) {
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
@@ -23,33 +21,21 @@ class UserController extends Controller
                 'message' => ['These credentials do not match our records.']
             ], 404);
         }
-
         $token = $user->createToken('my-app-token')->plainTextToken;
 
-        $response = [
+        return [
             'user' => $user,
             'token' => $token
         ];
-
-        return response($response, 201);
     }
 
-    public function register(Request $request) {
-
-        $data = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
-        ])->validate();
-
-        $isRegister = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+    public function register(UserRegisterRequest $request)
+    {
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
-        if ($isRegister) {
-            return true;
-        }
-        return false;
+        return new UserResource($user);
     }
 }
