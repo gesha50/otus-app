@@ -21,11 +21,9 @@ class UserController extends Controller
                 'message' => ['These credentials do not match our records.']
             ], 404);
         }
-        $token = $user->createToken('my-app-token')->plainTextToken;
-
         return [
-            'user' => $user,
-            'token' => $token
+            'user' => new UserResource($user),
+            'token' => $user->createToken('my-app-token')->plainTextToken
         ];
     }
 
