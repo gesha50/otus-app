@@ -48,7 +48,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('quizzes/{id}', [QuizController::class, 'update']);
     Route::post('start-screens/{id}', [StartScreenController::class, 'update']);
     Route::post('questions/{id}', [StartScreenController::class, 'update']);
-
+    Route::post('answers/{id}', [StartScreenController::class, 'update']);
 
 });
 

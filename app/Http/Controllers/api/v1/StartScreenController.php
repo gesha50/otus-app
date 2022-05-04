@@ -40,7 +40,8 @@ class StartScreenController extends Controller
             $startScreen->image  = $request->file('image')->store('start-screens', 'public');
             $startScreen->save();
         }
-        return new StartScreenResource($startScreen->with('quiz')->first());
+        $id = $startScreen->id;
+        return new StartScreenResource($startScreen->with('quiz')->where('id', $id)->first());
     }
 
     /**
@@ -51,7 +52,9 @@ class StartScreenController extends Controller
      */
     public function show(StartScreen $startScreen): StartScreenResource
     {
-        return new StartScreenResource($startScreen->with('quiz')->first());
+        $id = $startScreen->id;
+        return new StartScreenResource($startScreen->with('quiz')
+            ->where('id', $id)->first());
     }
 
     /**
@@ -75,7 +78,8 @@ class StartScreenController extends Controller
             $startScreen->image = $request->file('image')->store('start-screens', 'public');
             $startScreen->save();
         }
-        return new StartScreenResource($startScreen->with('quiz')->first());
+        $id = $startScreen->id;
+        return new StartScreenResource($startScreen->with('quiz')->where('id', $id)->first());
     }
 
     /**

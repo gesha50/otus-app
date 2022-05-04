@@ -3,84 +3,84 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Answer\AnswerStoreRequest;
+use App\Http\Requests\Answer\AnswerUpdateRequest;
+use App\Http\Resources\AnswerCollection;
+use App\Http\Resources\AnswerResource;
 use App\Models\Answer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AnswerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return AnswerCollection
      */
-    public function index()
+    public function index(): AnswerCollection
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Cache::remember('answers', 60*60*24, function () {
+            return new AnswerCollection(Answer::with('question')->get());
+        });
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param AnswerStoreRequest $request
+     * @return AnswerResource
      */
-    public function store(Request $request)
+    public function store(AnswerStoreRequest $request): AnswerResource
     {
-        //
+        $answer = Answer::create($request->all());
+        $id = $answer->id;
+        return new AnswerResource($answer->with('question')->where('id', $id)->first());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Answer  $answer
-     * @return \Illuminate\Http\Response
+     * @param Answer $answer
+     * @return AnswerResource
      */
-    public function show(Answer $answer)
+    public function show(Answer $answer): AnswerResource
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Answer  $answer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Answer $answer)
-    {
-        //
+        $id = $answer->id;
+        return new AnswerResource(
+            $answer->with('quiz', 'answers')->where('id', $id)->get()
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Answer  $answer
-     * @return \Illuminate\Http\Response
+     * @param AnswerUpdateRequest $request
+     * @param $id
+     * @return AnswerResource
      */
-    public function update(Request $request, Answer $answer)
+    public function update(AnswerUpdateRequest $request, $id): AnswerResource
     {
-        //
+        $answer = Answer::find($id);
+        $answer->update($request->all());
+        $id = $answer->id;
+        return new AnswerResource(
+            $answer->with('quiz', 'answers')->where('id', $id)->get()
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Answer  $answer
-     * @return \Illuminate\Http\Response
+     * @param Answer $answer
+     * @return array
      */
-    public function destroy(Answer $answer)
+    public function destroy(Answer $answer): array
     {
-        //
+        $answer->delete();
+        return [
+            'success'=> true,
+            'message' => 'delete success'
+        ];
     }
 }

@@ -52,7 +52,10 @@ class QuestionController extends Controller
      */
     public function show(Question $question): QuestionResource
     {
-        return new QuestionResource($question->with('quiz', 'answers')->first());
+        $id = $question->id;
+        return new QuestionResource(
+            $question->with('quiz', 'answers')->where('id', $id)->get()
+        );
     }
 
     /**
@@ -77,7 +80,8 @@ class QuestionController extends Controller
             $question->image = $request->file('image')->store('questions', 'public');
             $question->save();
         }
-        return new QuestionResource($question->with('quiz', 'answers')->first());
+        $id = $question->id;
+        return new QuestionResource($question->with('quiz', 'answers')->where('id', $id)->get());
     }
 
     /**

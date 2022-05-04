@@ -14,6 +14,7 @@ class Answer extends Model
     protected $fillable = [
         'title',
         'is_correct',
+        'question_id'
     ];
 
     public function result_details(): HasMany

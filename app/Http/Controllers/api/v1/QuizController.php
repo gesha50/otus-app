@@ -43,8 +43,9 @@ class QuizController extends Controller
             $quiz->image  = $request->file('image')->store('quizzes', 'public');
             $quiz->save();
         }
+        $id = $quiz->id;
         return new QuizResource(
-            $quiz->with('user', 'start_screen', 'category', 'questions.answers')->first()
+            $quiz->with('user', 'start_screen', 'category', 'questions.answers')->where('id', $id)->first()
         );
     }
 
@@ -56,8 +57,10 @@ class QuizController extends Controller
      */
     public function show(Quiz $quiz): QuizResource
     {
+        $id = $quiz->id;
         return new QuizResource(
-            $quiz->with('user', 'start_screen', 'category', 'questions.answers')->first()
+            $quiz->with('user', 'start_screen', 'category', 'questions.answers')
+                ->where('id', $id)->first()
         );
     }
 
@@ -82,8 +85,9 @@ class QuizController extends Controller
             $quiz->image = $request->file('image')->store('quizzes', 'public');
             $quiz->save();
         }
+        $id = $quiz->id;
         return new QuizResource(
-            $quiz->with('user', 'start_screen', 'category', 'questions.answers')->first()
+            $quiz->with('user', 'start_screen', 'category', 'questions.answers')->where('id', $id)->first()
         );
     }
 

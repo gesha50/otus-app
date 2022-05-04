@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\StartScreen;
+use App\Observers\AnswerObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\QuestionObserver;
 use App\Observers\QuizObserver;
@@ -35,9 +37,10 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Answer::observe(AnswerObserver::class);
         Category::observe(CategoryObserver::class);
         Quiz::observe(QuizObserver::class);
-        StartScreen::observe(StartScreenObserver::class);
         Question::observe(QuestionObserver::class);
+        StartScreen::observe(StartScreenObserver::class);
     }
 }
