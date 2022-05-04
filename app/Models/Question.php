@@ -16,7 +16,8 @@ class Question extends Model
         'image',
         'description',
         'bonus',
-        'time_to_answer'
+        'time_to_answer',
+        'quiz_id'
     ];
 
     public function quiz(): BelongsTo

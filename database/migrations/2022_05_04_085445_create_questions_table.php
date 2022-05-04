@@ -16,7 +16,7 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->string('title', 256);
-            $table->string('image', 256);
+            $table->string('image', 256)->nullable();
             $table->text('description')->nullable();
             $table->float('bonus',10,0);
             $table->time('time_to_answer')->default('00:00:30');

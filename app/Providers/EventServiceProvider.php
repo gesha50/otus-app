@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\StartScreen;
 use App\Observers\CategoryObserver;
+use App\Observers\QuestionObserver;
 use App\Observers\QuizObserver;
 use App\Observers\StartScreenObserver;
 use Illuminate\Auth\Events\Registered;
@@ -36,5 +38,6 @@ class EventServiceProvider extends ServiceProvider
         Category::observe(CategoryObserver::class);
         Quiz::observe(QuizObserver::class);
         StartScreen::observe(StartScreenObserver::class);
+        Question::observe(QuestionObserver::class);
     }
 }
