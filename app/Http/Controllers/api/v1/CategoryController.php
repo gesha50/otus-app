@@ -35,7 +35,7 @@ class CategoryController extends Controller
     {
         $category = Category::create($request->all());
         if ($request->hasFile('image')){
-            $category->image  = $request->file('image')->store('categories');
+            $category->image  = $request->file('image')->store('categories', 'public');
             $category->save();
         }
         return new CategoryResource($category);

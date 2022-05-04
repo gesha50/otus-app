@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\StartScreen;
 
-use App\Models\Category;
+use App\Models\StartScreen;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class CategoryUpdateRequest extends FormRequest
+class StartScreenUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,11 +28,14 @@ class CategoryUpdateRequest extends FormRequest
     {
         return [
             'title' => [
-                'max:100', 'min:2',
-                Rule::unique('categories')
-                    ->ignore(Category::where('title', $request->title)->first()->id),
+                'min:2', 'max:100',
+                Rule::unique('start_screens')
+                    ->ignore(StartScreen::where('title', $request->title)->first()->id)
             ],
-            'image' => 'file'
+            'image' => 'file',
+            'description' => '',
+            'source' => '',
+            'quiz_id' => 'exists:App\Models\Quiz,id'
         ];
     }
 }

@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Quiz;
+use App\Models\StartScreen;
 use App\Observers\CategoryObserver;
+use App\Observers\QuizObserver;
+use App\Observers\StartScreenObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -30,5 +34,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Category::observe(CategoryObserver::class);
+        Quiz::observe(QuizObserver::class);
+        StartScreen::observe(StartScreenObserver::class);
     }
 }
