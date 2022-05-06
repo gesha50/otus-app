@@ -6,11 +6,13 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\Quiz;
+use App\Models\Result;
 use App\Models\StartScreen;
 use App\Observers\AnswerObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\QuestionObserver;
 use App\Observers\QuizObserver;
+use App\Observers\ResultObserver;
 use App\Observers\StartScreenObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -41,6 +43,7 @@ class EventServiceProvider extends ServiceProvider
         Category::observe(CategoryObserver::class);
         Quiz::observe(QuizObserver::class);
         Question::observe(QuestionObserver::class);
+        Result::observe(ResultObserver::class);
         StartScreen::observe(StartScreenObserver::class);
     }
 }

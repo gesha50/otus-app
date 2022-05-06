@@ -13,7 +13,9 @@ class Result extends Model
 
     protected $fillable = [
         'time_to_end',
-        'total_bonus'
+        'total_bonus',
+        'quiz_id',
+        'user_id'
     ];
 
     public function user(): BelongsTo
@@ -24,5 +26,10 @@ class Result extends Model
     public function result_details(): HasMany
     {
         return $this->hasMany(ResultDetail::class);
+    }
+
+    public function quiz(): BelongsTo
+    {
+        return $this->belongsTo(Quiz::class);
     }
 }

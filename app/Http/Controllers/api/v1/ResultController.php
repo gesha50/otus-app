@@ -3,84 +3,107 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Result\ResultStoreRequest;
+use App\Http\Requests\Result\ResultUpdateRequest;
+use App\Http\Resources\ResultCollection;
+use App\Http\Resources\ResultResource;
 use App\Models\Result;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class ResultController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return ResultCollection
      */
-    public function index()
+    public function index(): ResultCollection
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Cache::remember('results', 60*60*24, function () {
+            return new ResultCollection(
+                Result::with(
+                    'user',
+                    'result_details.answer.question',
+                    'quiz.category',
+                    'quiz.questions.answers.result_details',
+                    'quiz.user'
+                )->get()
+            );
+        });
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ResultStoreRequest $request
+     * @return ResultResource
      */
-    public function store(Request $request)
+    public function store(ResultStoreRequest $request): ResultResource
     {
-        //
+        $result = Result::create($request->all());
+        $id = $result->id;
+        return new ResultResource($result->with(
+            'user',
+            'result_details.answer.question',
+            'quiz.category',
+            'quiz.questions.answers.result_details',
+            'quiz.user'
+        )->where('id', $id)->first());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Result  $result
-     * @return \Illuminate\Http\Response
+     * @param Result $result
+     * @return ResultResource
      */
-    public function show(Result $result)
+    public function show(Result $result): ResultResource
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Result  $result
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Result $result)
-    {
-        //
+        $id = $result->id;
+        return new ResultResource($result->with(
+            'user',
+            'result_details.answer.question',
+            'quiz.category',
+            'quiz.questions.answers.result_details',
+            'quiz.user'
+        )->where('id', $id)->first());
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Result  $result
-     * @return \Illuminate\Http\Response
+     * @param ResultUpdateRequest $request
+     * @param $id
+     * @return ResultResource
      */
-    public function update(Request $request, Result $result)
+    public function update(ResultUpdateRequest $request, $id): ResultResource
     {
-        //
+        $result = Result::find($id);
+        $result->update($request->all());
+        $id = $result->id;
+        return new ResultResource($result->with(
+            'user',
+            'result_details.answer.question',
+            'quiz.category',
+            'quiz.questions.answers.result_details',
+            'quiz.user'
+        )->where('id', $id)->first());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Result  $result
-     * @return \Illuminate\Http\Response
+     * @param Result $result
+     * @return array
      */
-    public function destroy(Result $result)
+    public function destroy(Result $result): array
     {
-        //
+        $result->delete();
+        return [
+            'success'=> true,
+            'message' => 'delete success'
+        ];
     }
 }

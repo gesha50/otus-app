@@ -47,9 +47,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('categories/{id}', [CategoryController::class, 'update']);
     Route::post('quizzes/{id}', [QuizController::class, 'update']);
     Route::post('start-screens/{id}', [StartScreenController::class, 'update']);
-    Route::post('questions/{id}', [StartScreenController::class, 'update']);
-    Route::post('answers/{id}', [StartScreenController::class, 'update']);
-
+    Route::post('questions/{id}', [QuestionController::class, 'update']);
+    Route::post('answers/{id}', [AnswerController::class, 'update']);
+    Route::post('results/{id}', [ResultController::class, 'update']);
+    Route::post('result-details/{id}', [ResultDetailController::class, 'update']);
 });
 
 Route::post('/login', [UserController::class, 'login'] );
