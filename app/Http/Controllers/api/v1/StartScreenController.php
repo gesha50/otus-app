@@ -8,8 +8,6 @@ use App\Http\Requests\StartScreen\StartScreenUpdateRequest;
 use App\Http\Resources\StartScreenCollection;
 use App\Http\Resources\StartScreenResource;
 use App\Models\StartScreen;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 

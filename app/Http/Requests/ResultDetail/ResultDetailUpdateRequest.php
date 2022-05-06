@@ -11,9 +11,9 @@ class ResultDetailUpdateRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,12 @@ class ResultDetailUpdateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'result_id' => 'exists:App\Models\Result,id',
+            'question_id' => 'exists:App\Models\Question,id',
+            'choice' => 'integer'
         ];
     }
 }

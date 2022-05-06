@@ -7,11 +7,13 @@ use App\Models\Category;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Result;
+use App\Models\ResultDetail;
 use App\Models\StartScreen;
 use App\Observers\AnswerObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\QuestionObserver;
 use App\Observers\QuizObserver;
+use App\Observers\ResultDetailObserver;
 use App\Observers\ResultObserver;
 use App\Observers\StartScreenObserver;
 use Illuminate\Auth\Events\Registered;
@@ -44,6 +46,7 @@ class EventServiceProvider extends ServiceProvider
         Quiz::observe(QuizObserver::class);
         Question::observe(QuestionObserver::class);
         Result::observe(ResultObserver::class);
+        ResultDetail::observe(ResultDetailObserver::class);
         StartScreen::observe(StartScreenObserver::class);
     }
 }

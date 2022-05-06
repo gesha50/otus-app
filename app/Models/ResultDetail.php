@@ -11,7 +11,9 @@ class ResultDetail extends Model
     use HasFactory;
 
     protected $fillable = [
-        'choice'
+        'choice',
+        'question_id',
+        'result_id'
     ];
 
     public function result(): BelongsTo
@@ -19,8 +21,8 @@ class ResultDetail extends Model
         return $this->belongsTo(Result::class);
     }
 
-    public function answer(): BelongsTo
+    public function question(): BelongsTo
     {
-        return $this->belongsTo(Answer::class);
+        return $this->belongsTo(Question::class);
     }
 }

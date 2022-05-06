@@ -8,8 +8,6 @@ use App\Http\Requests\Quiz\QuizUpdateRequest;
 use App\Http\Resources\QuizCollection;
 use App\Http\Resources\QuizResource;
 use App\Models\Quiz;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 

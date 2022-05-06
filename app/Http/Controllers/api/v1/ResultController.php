@@ -8,8 +8,6 @@ use App\Http\Requests\Result\ResultUpdateRequest;
 use App\Http\Resources\ResultCollection;
 use App\Http\Resources\ResultResource;
 use App\Models\Result;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 
 class ResultController extends Controller
@@ -27,7 +25,7 @@ class ResultController extends Controller
                     'user',
                     'result_details.answer.question',
                     'quiz.category',
-                    'quiz.questions.answers.result_details',
+                    'quiz.questions.answers',
                     'quiz.user'
                 )->get()
             );
@@ -48,7 +46,7 @@ class ResultController extends Controller
             'user',
             'result_details.answer.question',
             'quiz.category',
-            'quiz.questions.answers.result_details',
+            'quiz.questions.answers',
             'quiz.user'
         )->where('id', $id)->first());
     }
@@ -66,7 +64,7 @@ class ResultController extends Controller
             'user',
             'result_details.answer.question',
             'quiz.category',
-            'quiz.questions.answers.result_details',
+            'quiz.questions.answers',
             'quiz.user'
         )->where('id', $id)->first());
     }
@@ -87,7 +85,7 @@ class ResultController extends Controller
             'user',
             'result_details.answer.question',
             'quiz.category',
-            'quiz.questions.answers.result_details',
+            'quiz.questions.answers',
             'quiz.user'
         )->where('id', $id)->first());
     }

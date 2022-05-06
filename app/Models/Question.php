@@ -29,4 +29,9 @@ class Question extends Model
     {
         return $this->hasMany(Answer::class);
     }
+
+    public function result_details(): HasMany
+    {
+        return $this->hasMany(ResultDetail::class);
+    }
 }

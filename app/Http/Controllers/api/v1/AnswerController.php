@@ -8,7 +8,6 @@ use App\Http\Requests\Answer\AnswerUpdateRequest;
 use App\Http\Resources\AnswerCollection;
 use App\Http\Resources\AnswerResource;
 use App\Models\Answer;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class AnswerController extends Controller
@@ -21,7 +20,7 @@ class AnswerController extends Controller
     public function index(): AnswerCollection
     {
         return Cache::remember('answers', 60*60*24, function () {
-            return new AnswerCollection(Answer::with('question')->get());
+            return new AnswerCollection(Answer::with('quiz', 'question')->get());
         });
     }
 
@@ -35,7 +34,7 @@ class AnswerController extends Controller
     {
         $answer = Answer::create($request->all());
         $id = $answer->id;
-        return new AnswerResource($answer->with('question')->where('id', $id)->first());
+        return new AnswerResource($answer->with('quiz', 'question')->where('id', $id)->first());
     }
 
     /**
@@ -48,7 +47,7 @@ class AnswerController extends Controller
     {
         $id = $answer->id;
         return new AnswerResource(
-            $answer->with('quiz', 'answers')->where('id', $id)->get()
+            $answer->with('quiz', 'question')->where('id', $id)->get()
         );
     }
 
@@ -65,7 +64,7 @@ class AnswerController extends Controller
         $answer->update($request->all());
         $id = $answer->id;
         return new AnswerResource(
-            $answer->with('quiz', 'answers')->where('id', $id)->get()
+            $answer->with('quiz', 'question')->where('id', $id)->get()
         );
     }
 

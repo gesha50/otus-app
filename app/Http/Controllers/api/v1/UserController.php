@@ -7,9 +7,7 @@ use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -27,7 +25,7 @@ class UserController extends Controller
         ];
     }
 
-    public function register(UserRegisterRequest $request)
+    public function register(UserRegisterRequest $request): UserResource
     {
         $user = User::create([
             'name' => $request->name,

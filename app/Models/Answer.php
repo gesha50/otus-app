@@ -17,11 +17,6 @@ class Answer extends Model
         'question_id'
     ];
 
-    public function result_details(): HasMany
-    {
-        return $this->hasMany(ResultDetail::class);
-    }
-
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
