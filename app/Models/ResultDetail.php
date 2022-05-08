@@ -12,6 +12,7 @@ class ResultDetail extends Model
 
     protected $fillable = [
         'choice',
+        'time_to_end',
         'question_id',
         'result_id'
     ];

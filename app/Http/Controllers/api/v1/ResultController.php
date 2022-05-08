@@ -23,7 +23,7 @@ class ResultController extends Controller
             return new ResultCollection(
                 Result::with(
                     'user',
-                    'result_details.answer.question',
+                    'result_details.question.answers',
                     'quiz.category',
                     'quiz.questions.answers',
                     'quiz.user'

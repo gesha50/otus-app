@@ -15,7 +15,6 @@ class CreateResultsTable extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->time('time_to_end')->nullable();
             $table->float('total_bonus',10,0);
 
             $table->foreignId('quiz_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();

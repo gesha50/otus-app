@@ -27,11 +27,7 @@ class AnswerUpdateRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'title' => [
-                'min:2', 'max:100',
-                Rule::unique('questions')
-                    ->ignore(Question::where('title', $request->title)->first()->id)
-            ],
+            'title' => 'min:2 | max:100',
             'is_correct' => 'required | boolean',
             'question_id' => 'exists:App\Models\Question,id'
         ];

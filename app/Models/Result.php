@@ -12,7 +12,6 @@ class Result extends Model
     use HasFactory;
 
     protected $fillable = [
-        'time_to_end',
         'total_bonus',
         'quiz_id',
         'user_id'

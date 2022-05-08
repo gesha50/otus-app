@@ -16,6 +16,7 @@ class CreateResultDetailsTable extends Migration
         Schema::create('result_details', function (Blueprint $table) {
             $table->id();
             $table->float('choice', 5,0);
+            $table->time('time_to_end');
             $table->foreignId('question_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('result_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

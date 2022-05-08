@@ -20,7 +20,7 @@ class AnswerController extends Controller
     public function index(): AnswerCollection
     {
         return Cache::remember('answers', 60*60*24, function () {
-            return new AnswerCollection(Answer::with('quiz', 'question')->get());
+            return new AnswerCollection(Answer::with('question.quiz')->get());
         });
     }
 
@@ -34,7 +34,7 @@ class AnswerController extends Controller
     {
         $answer = Answer::create($request->all());
         $id = $answer->id;
-        return new AnswerResource($answer->with('quiz', 'question')->where('id', $id)->first());
+        return new AnswerResource($answer->with('question.quiz')->where('id', $id)->first());
     }
 
     /**
@@ -47,7 +47,7 @@ class AnswerController extends Controller
     {
         $id = $answer->id;
         return new AnswerResource(
-            $answer->with('quiz', 'question')->where('id', $id)->get()
+            $answer->with('question.quiz')->where('id', $id)->get()
         );
     }
 
@@ -64,7 +64,7 @@ class AnswerController extends Controller
         $answer->update($request->all());
         $id = $answer->id;
         return new AnswerResource(
-            $answer->with('quiz', 'question')->where('id', $id)->get()
+            $answer->with('question.quiz')->where('id', $id)->get()
         );
     }
 
