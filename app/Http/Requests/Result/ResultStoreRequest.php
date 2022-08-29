@@ -24,7 +24,7 @@ class ResultStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'exists:App\Models\User,id',
+            'user_id' => 'nullable | exists:App\Models\User,id',
             'quiz_id' => 'exists:App\Models\Quiz,id',
             'total_bonus' => 'integer'
         ];

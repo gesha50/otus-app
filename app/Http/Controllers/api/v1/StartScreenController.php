@@ -8,6 +8,7 @@ use App\Http\Requests\StartScreen\StartScreenUpdateRequest;
 use App\Http\Resources\StartScreenCollection;
 use App\Http\Resources\StartScreenResource;
 use App\Models\StartScreen;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,7 +36,7 @@ class StartScreenController extends Controller
     {
         $startScreen = StartScreen::create($request->all());
         if ($request->hasFile('image')){
-            $startScreen->image  = $request->file('image')->store('start-screens', 'public');
+            $startScreen->image = $request->file('image')->store('start-screens', 'public');
             $startScreen->save();
         }
         $id = $startScreen->id;
@@ -80,6 +81,48 @@ class StartScreenController extends Controller
         return new StartScreenResource($startScreen->with('quiz')->where('id', $id)->first());
     }
 
+    public function updateTitle(Request $request, $id): StartScreenResource
+    {
+        $startScreen = StartScreen::find($id);
+        $startScreen->update([
+            'title' => $request->title
+        ]);
+        $id = $startScreen->id;
+        return new StartScreenResource($startScreen->with('quiz')->where('id', $id)->get());
+    }
+
+    public function updateDescription(Request $request, $id): StartScreenResource
+    {
+        $startScreen = StartScreen::find($id);
+        $startScreen->update([
+            'description' => $request->description
+        ]);
+        $id = $startScreen->id;
+        return new StartScreenResource($startScreen->with('quiz')->where('id', $id)->get());
+    }
+
+    public function updateSource(Request $request, $id): StartScreenResource
+    {
+        $startScreen = StartScreen::find($id);
+        $startScreen->update([
+            'source' => $request->source
+        ]);
+        $id = $startScreen->id;
+        return new StartScreenResource($startScreen->with('quiz')->where('id', $id)->get());
+    }
+
+    public function updateImage(Request $request, $id): StartScreenResource
+    {
+        $startScreen = StartScreen::find($id);
+        if ($request->hasFile('image')){
+            Storage::disk('public')->delete($startScreen->image);
+            $startScreen->image = $request->file('image')->store('start-screens', 'public');
+            $startScreen->save();
+        }
+        $id = $startScreen->id;
+        return new StartScreenResource($startScreen->with('quiz')->where('id', $id)->get());
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -90,6 +133,17 @@ class StartScreenController extends Controller
     {
         Storage::disk('public')->delete($startScreen->image);
         $startScreen->delete();
+        return [
+            'success'=> true,
+            'message' => 'delete success'
+        ];
+    }
+
+    public function deleteImage($id): array
+    {
+        $startScreen = StartScreen::find($id);
+        Storage::disk('public')->delete($startScreen->image);
+        $startScreen->update(['image'=> null]);
         return [
             'success'=> true,
             'message' => 'delete success'

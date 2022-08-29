@@ -13,6 +13,7 @@ class AnswerObserver
      */
     public function created() {
         Cache::forget('answers');
+        Cache::forget('userQuizzes');
     }
 
     /**
@@ -23,6 +24,7 @@ class AnswerObserver
     public function updated()
     {
         Cache::forget('answers');
+        Cache::forget('userQuizzes');
     }
 
     /**
@@ -33,5 +35,6 @@ class AnswerObserver
     public function deleted()
     {
         Cache::forget('answers');
+        Cache::forget('userQuizzes');
     }
 }

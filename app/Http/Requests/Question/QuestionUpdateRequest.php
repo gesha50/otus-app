@@ -27,14 +27,11 @@ class QuestionUpdateRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'title' => [
-                'min:2', 'max:100',
-                Rule::unique('questions')
-                    ->ignore(Question::where('title', $request->title)->first()->id),
-            ],
+            'title' => ['min:2', 'max:100'],
             'image' => 'file',
             'description' => '',
             'bonus' => 'integer',
+            'correct_answer' => 'integer',
             'time_to_answer' => 'date_format:H:i:s',
             'quiz_id' => 'exists:App\Models\Quiz,id'
         ];

@@ -25,7 +25,7 @@ class StartScreenStoreRequest extends FormRequest
     {
         return [
             'title' => ['required', 'min:2', 'max:100', 'unique:start_screens'],
-            'image' => 'file',
+            'image' => '',
             'description' => '',
             'source' => '',
             'quiz_id' => 'exists:App\Models\Quiz,id'

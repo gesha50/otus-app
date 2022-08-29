@@ -32,7 +32,7 @@ class StartScreenUpdateRequest extends FormRequest
                 Rule::unique('start_screens')
                     ->ignore(StartScreen::where('title', $request->title)->first()->id)
             ],
-            'image' => 'file',
+            'image' => 'nullable | file',
             'description' => '',
             'source' => '',
             'quiz_id' => 'exists:App\Models\Quiz,id'

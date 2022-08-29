@@ -8,6 +8,8 @@ use App\Http\Requests\Quiz\QuizUpdateRequest;
 use App\Http\Resources\QuizCollection;
 use App\Http\Resources\QuizResource;
 use App\Models\Quiz;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,6 +30,17 @@ class QuizController extends Controller
         });
     }
 
+    public function userQuizzes(): QuizCollection
+    {
+//        return Cache::remember('userQuizzes', 60*60*24, function () {
+            return new QuizCollection(
+                Quiz::where('user_id', Auth::user()->id)
+                    ->with('user', 'start_screen', 'category', 'questions.answers')
+                    ->get()
+            );
+//        });
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -38,7 +51,7 @@ class QuizController extends Controller
     {
         $quiz = Quiz::create($request->all());
         if ($request->hasFile('image')){
-            $quiz->image  = $request->file('image')->store('quizzes', 'public');
+            $quiz->image = $request->file('image')->store('quizzes', 'public');
             $quiz->save();
         }
         $id = $quiz->id;
@@ -83,6 +96,35 @@ class QuizController extends Controller
             $quiz->image = $request->file('image')->store('quizzes', 'public');
             $quiz->save();
         }
+        $id = $quiz->id;
+        return new QuizResource(
+            $quiz->with('user', 'start_screen', 'category', 'questions.answers')->where('id', $id)->first()
+        );
+    }
+
+    public function updateCategory(Request $request, $id): QuizResource
+    {
+        $quiz = Quiz::find($id);
+        $quiz->update([
+            'category_id' => (int)$request->category_id
+        ]);
+        $id = $quiz->id;
+        return new QuizResource(
+            $quiz->with('user', 'start_screen', 'category', 'questions.answers')->where('id', $id)->first()
+        );
+    }
+
+    public function updateIsVisible(Request $request, $id): QuizResource
+    {
+        $quiz = Quiz::find($id);
+        if ($request->is_visible) {
+            $is_visible = 1;
+        } else {
+            $is_visible = 0;
+        }
+        $quiz->update([
+            'is_visible' => $is_visible
+        ]);
         $id = $quiz->id;
         return new QuizResource(
             $quiz->with('user', 'start_screen', 'category', 'questions.answers')->where('id', $id)->first()

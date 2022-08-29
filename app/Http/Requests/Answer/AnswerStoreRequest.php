@@ -24,7 +24,7 @@ class AnswerStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required | min:2 | max:100',
+            'title' => 'max:100',
             'is_correct' => 'required | boolean',
             'question_id' => 'exists:App\Models\Question,id'
         ];

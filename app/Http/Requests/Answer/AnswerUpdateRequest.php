@@ -27,7 +27,7 @@ class AnswerUpdateRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'title' => 'min:2 | max:100',
+            'title' => 'max:100',
             'is_correct' => 'required | boolean',
             'question_id' => 'exists:App\Models\Question,id'
         ];

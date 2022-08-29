@@ -44,7 +44,7 @@ class ResultController extends Controller
         $id = $result->id;
         return new ResultResource($result->with(
             'user',
-            'result_details.answer.question',
+            'result_details.question.answers',
             'quiz.category',
             'quiz.questions.answers',
             'quiz.user'
@@ -62,7 +62,7 @@ class ResultController extends Controller
         $id = $result->id;
         return new ResultResource($result->with(
             'user',
-            'result_details.answer.question',
+            'result_details.question.answers',
             'quiz.category',
             'quiz.questions.answers',
             'quiz.user'
@@ -83,7 +83,7 @@ class ResultController extends Controller
         $id = $result->id;
         return new ResultResource($result->with(
             'user',
-            'result_details.answer.question',
+            'result_details.question.answers',
             'quiz.category',
             'quiz.questions.answers',
             'quiz.user'

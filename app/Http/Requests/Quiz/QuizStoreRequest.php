@@ -25,7 +25,7 @@ class QuizStoreRequest extends FormRequest
     {
         return [
             'link' => ['required', 'unique:quizzes'],
-            'image' => 'file',
+            'image' => '',
             'is_visible' => 'boolean | required',
             'category_id' => 'exists:App\Models\Category,id',
             'user_id' => 'exists:App\Models\User,id'

@@ -24,10 +24,11 @@ class QuestionStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'min:2', 'max:100', 'unique:questions'],
+            'title' => ['required', 'min:2', 'max:100'],
             'image' => 'file',
             'description' => '',
             'bonus' => 'integer',
+            'correct_answer' => 'integer',
             'time_to_answer' => 'date_format:H:i:s',
             'quiz_id' => 'exists:App\Models\Quiz,id'
         ];

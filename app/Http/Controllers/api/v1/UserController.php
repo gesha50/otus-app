@@ -8,6 +8,8 @@ use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Regestration;
 
 class UserController extends Controller
 {
@@ -32,6 +34,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+//        Mail::to($request->email)->send(new Regestration($request->password));
         return new UserResource($user);
     }
 }

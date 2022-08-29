@@ -8,6 +8,7 @@ use App\Http\Requests\Answer\AnswerUpdateRequest;
 use App\Http\Resources\AnswerCollection;
 use App\Http\Resources\AnswerResource;
 use App\Models\Answer;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class AnswerController extends Controller
@@ -62,6 +63,17 @@ class AnswerController extends Controller
     {
         $answer = Answer::find($id);
         $answer->update($request->all());
+        $id = $answer->id;
+        return new AnswerResource(
+            $answer->with('question.quiz')->where('id', $id)->get()
+        );
+    }
+
+    public function updateTitle(Request $request, $id): AnswerResource
+    {
+        $answer = Answer::find($id);
+        $answer->title = $request->title;
+        $answer->save();
         $id = $answer->id;
         return new AnswerResource(
             $answer->with('question.quiz')->where('id', $id)->get()

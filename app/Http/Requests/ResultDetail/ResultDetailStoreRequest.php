@@ -26,7 +26,7 @@ class ResultDetailStoreRequest extends FormRequest
         return [
             'result_id' => 'exists:App\Models\Result,id',
             'question_id' => 'exists:App\Models\Question,id',
-            'choice' => 'integer',
+            'choice' => 'integer | nullable',
             'time_to_end' => 'date_format:"H:i:s"',
         ];
     }
