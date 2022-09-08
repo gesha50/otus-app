@@ -27,7 +27,7 @@ class QuestionUpdateRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'title' => ['min:2', 'max:100'],
+            'title' => 'max:100',
             'image' => 'file',
             'description' => '',
             'bonus' => 'integer',

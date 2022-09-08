@@ -24,7 +24,8 @@ class QuizController extends Controller
     {
         return Cache::remember('quizzes', 60*60*24, function () {
             return new QuizCollection(
-                Quiz::with('user', 'start_screen', 'category', 'questions.answers')
+                Quiz::where(['is_visible' => '1'])
+                ->with('user', 'start_screen', 'category', 'questions.answers')
                 ->get()
             );
         });
@@ -32,13 +33,11 @@ class QuizController extends Controller
 
     public function userQuizzes(): QuizCollection
     {
-//        return Cache::remember('userQuizzes', 60*60*24, function () {
-            return new QuizCollection(
-                Quiz::where('user_id', Auth::user()->id)
-                    ->with('user', 'start_screen', 'category', 'questions.answers')
-                    ->get()
-            );
-//        });
+        return new QuizCollection(
+            Quiz::where('user_id', Auth::user()->id)
+                ->with('user', 'start_screen', 'category', 'questions.answers')
+                ->get()
+        );
     }
 
     /**

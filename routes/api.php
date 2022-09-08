@@ -26,6 +26,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::apiResources([
+    'quizzes' => QuizController::class,
+]);
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/test', function () {
         return [
@@ -36,7 +40,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::apiResources([
         'categories' => CategoryController::class,
-        'quizzes' => QuizController::class,
         'answers' => AnswerController::class,
         'questions' => QuestionController::class,
         'results' => ResultController::class,

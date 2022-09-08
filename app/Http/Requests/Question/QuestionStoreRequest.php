@@ -24,7 +24,7 @@ class QuestionStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'min:2', 'max:100'],
+            'title' => 'max:100',
             'image' => 'file',
             'description' => '',
             'bonus' => 'integer',
