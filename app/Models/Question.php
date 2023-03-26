@@ -17,6 +17,8 @@ class Question extends Model
         'description',
         'bonus',
         'time_to_answer',
+        'correct_answer_image',
+        'correct_answer',
         'quiz_id'
     ];
 

@@ -33,6 +33,8 @@ class QuestionUpdateRequest extends FormRequest
             'bonus' => 'integer',
             'correct_answer' => 'integer',
             'time_to_answer' => 'date_format:H:i:s',
+            'full_answer_image' => 'max:256',
+            'full_answer' => 'max:256',
             'quiz_id' => 'exists:App\Models\Quiz,id'
         ];
     }

@@ -73,10 +73,16 @@ class QuestionController extends Controller
             'description' => $request->description,
             'bonus' => $request->bonus,
             'time_to_answer' => $request->time_to_answer,
+            'full_answer' => $request->full_answer,
             'quiz_id' => $request->quiz_id,
         ]);
         if ($request->hasFile('image')){
             Storage::disk('public')->delete($question->image);
+            $question->image = $request->file('image')->store('questions', 'public');
+            $question->save();
+        }
+        if ($request->hasFile('full_answer_image')){
+            Storage::disk('public')->delete($question->full_answer_image);
             $question->image = $request->file('image')->store('questions', 'public');
             $question->save();
         }
